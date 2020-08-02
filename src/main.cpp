@@ -64,31 +64,22 @@ void listenUDP(int port){
           if (packet.length() == 324 ) {
             char rpm[4]; // four bytes in a float 32
 
-            //current rpm
-            rpm[0] = packet.data()[16];
-            rpm[1] = packet.data()[17];
-            rpm[2] = packet.data()[18];
-            rpm[3] = packet.data()[19];
-            
+            //CURRENT_ENGINE_RPM
+            memcpy(rpm, (packet.data()+16) , 4);
             current_rpm = *( (float*) rpm);
-            
-            //idle rpm
-            rpm[0] = packet.data()[12];
-            rpm[1] = packet.data()[13];
-            rpm[2] = packet.data()[14];
-            rpm[3] = packet.data()[15];
+
+            // IDLE_ENGINE_RPM
+            memcpy(rpm, (packet.data()+12) , 4);
             if( idle_rpm != *( (float*) rpm)){
               idle_rpm = *( (float*) rpm);
             }
-          
-            //max rpm
-            rpm[0] = packet.data()[8];
-            rpm[1] = packet.data()[9];
-            rpm[2] = packet.data()[10];
-            rpm[3] = packet.data()[11];
-            if( max_rpm != *( (float*) rpm) ){
+
+            //MAX_ENGINE_RPM
+            memcpy(rpm, (packet.data()+8) , 4);
+            if( max_rpm != *( (float*) rpm)){
               max_rpm = *( (float*) rpm);
             }
+
             if(current_rpm > 0.1){
               setTachometer();
               last_packet_in = millis();
@@ -110,6 +101,7 @@ void setup() {
 void loop() {
   unsigned long current_millis = millis();
 
+  //if didn't get packets more than 1 sec, turn off all led
   if(current_millis - last_packet_in >= 1000 && current_rpm <= 0.1){
     current_rpm = 0.0;
     max_rpm = 0.0;
