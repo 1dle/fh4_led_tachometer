@@ -10,8 +10,11 @@ Settings -> HUD and Gameplay -> DATA OUT set to 'ON' and set 'DATA OUT IP ADDRES
 C++ with PlatformIO (VS Code)
 
 # Used libraries
-- AsyncUDP form (https://github.com/espressif/arduino-espy32)
+- AsyncUDP form (https://github.com/espressif/arduino-esp32)
 - ShiftRegister74HC595 (https://github.com/Simsso/ShiftRegister74HC595)
 
 # Wiring
 ![led_tacho](led_tacho_bb.png)
+
+# License
+This project is released under the MIT license. See [LICENSE](LICENSE) for details.
